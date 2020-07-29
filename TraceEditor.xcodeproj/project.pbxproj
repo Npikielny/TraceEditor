@@ -7,12 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		460DBA3024CF5305006840D2 /* SliderInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460DBA2F24CF5305006840D2 /* SliderInput.swift */; };
 		4622A86624CB462A002DA4BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4622A86524CB462A002DA4BF /* AppDelegate.swift */; };
-		4622A86824CB462A002DA4BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4622A86724CB462A002DA4BF /* ViewController.swift */; };
 		4622A86A24CB462B002DA4BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4622A86924CB462B002DA4BF /* Assets.xcassets */; };
 		4622A86D24CB462B002DA4BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4622A86B24CB462B002DA4BF /* Main.storyboard */; };
 		4622A87924CB462B002DA4BF /* TraceEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4622A87824CB462B002DA4BF /* TraceEditorTests.swift */; };
 		4622A88424CB462B002DA4BF /* TraceEditorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4622A88324CB462B002DA4BF /* TraceEditorUITests.swift */; };
+		4622A89224CB472A002DA4BF /* RenderHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4622A89124CB472A002DA4BF /* RenderHandling.swift */; };
+		4622A89424CB4A3B002DA4BF /* Rendering.metal in Sources */ = {isa = PBXBuildFile; fileRef = 4622A89324CB4A3B002DA4BF /* Rendering.metal */; };
+		4622A89624CB4FA6002DA4BF /* TraceHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4622A89524CB4FA6002DA4BF /* TraceHandling.swift */; };
+		46364B6224CF312F00687C36 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46364B6024CF312F00687C36 /* SettingsController.swift */; };
+		46364B6324CF312F00687C36 /* SettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46364B6124CF312F00687C36 /* SettingsController.xib */; };
+		46A3C1B524CD49AF00B53881 /* GUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A3C1B324CD49AF00B53881 /* GUIController.swift */; };
+		46A3C1B624CD49AF00B53881 /* GUIController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46A3C1B424CD49AF00B53881 /* GUIController.xib */; };
+		46B2C38324D0A17000D0B7FB /* ColorPickerInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B2C38224D0A17000D0B7FB /* ColorPickerInput.swift */; };
+		46B2C38924D0ABBB00D0B7FB /* UniformHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B2C38824D0ABBB00D0B7FB /* UniformHandling.swift */; };
+		46B2C38B24D0AC3500D0B7FB /* TextureHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B2C38A24D0AC3500D0B7FB /* TextureHandling.swift */; };
+		46B2C38D24D0ACC900D0B7FB /* KeyHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B2C38C24D0ACC900D0B7FB /* KeyHandling.swift */; };
+		46BB599D24CE2FBA00A807FE /* FrameViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BB599C24CE2FBA00A807FE /* FrameViewer.swift */; };
+		46BB59A124CE3A1D00A807FE /* FileInputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BB599F24CE3A1D00A807FE /* FileInputController.swift */; };
+		46BB59A224CE3A1D00A807FE /* FileInputController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46BB59A024CE3A1D00A807FE /* FileInputController.xib */; };
+		46FF476024CCB938005A9F16 /* MouseHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FF475F24CCB938005A9F16 /* MouseHandling.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,9 +48,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		460DBA2F24CF5305006840D2 /* SliderInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderInput.swift; sourceTree = "<group>"; };
 		4622A86224CB462A002DA4BF /* TraceEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TraceEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4622A86524CB462A002DA4BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4622A86724CB462A002DA4BF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4622A86924CB462B002DA4BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4622A86C24CB462B002DA4BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4622A86E24CB462B002DA4BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,6 +61,21 @@
 		4622A87F24CB462B002DA4BF /* TraceEditorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TraceEditorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4622A88324CB462B002DA4BF /* TraceEditorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceEditorUITests.swift; sourceTree = "<group>"; };
 		4622A88524CB462B002DA4BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4622A89124CB472A002DA4BF /* RenderHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderHandling.swift; sourceTree = "<group>"; };
+		4622A89324CB4A3B002DA4BF /* Rendering.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Rendering.metal; sourceTree = "<group>"; };
+		4622A89524CB4FA6002DA4BF /* TraceHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceHandling.swift; sourceTree = "<group>"; };
+		46364B6024CF312F00687C36 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		46364B6124CF312F00687C36 /* SettingsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsController.xib; sourceTree = "<group>"; };
+		46A3C1B324CD49AF00B53881 /* GUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUIController.swift; sourceTree = "<group>"; };
+		46A3C1B424CD49AF00B53881 /* GUIController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GUIController.xib; sourceTree = "<group>"; };
+		46B2C38224D0A17000D0B7FB /* ColorPickerInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerInput.swift; sourceTree = "<group>"; };
+		46B2C38824D0ABBB00D0B7FB /* UniformHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformHandling.swift; sourceTree = "<group>"; };
+		46B2C38A24D0AC3500D0B7FB /* TextureHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureHandling.swift; sourceTree = "<group>"; };
+		46B2C38C24D0ACC900D0B7FB /* KeyHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyHandling.swift; sourceTree = "<group>"; };
+		46BB599C24CE2FBA00A807FE /* FrameViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameViewer.swift; sourceTree = "<group>"; };
+		46BB599F24CE3A1D00A807FE /* FileInputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInputController.swift; sourceTree = "<group>"; };
+		46BB59A024CE3A1D00A807FE /* FileInputController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FileInputController.xib; sourceTree = "<group>"; };
+		46FF475F24CCB938005A9F16 /* MouseHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseHandling.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +103,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		460DBA2E24CF52EA006840D2 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				46364B6024CF312F00687C36 /* SettingsController.swift */,
+				460DBA2F24CF5305006840D2 /* SliderInput.swift */,
+				46B2C38224D0A17000D0B7FB /* ColorPickerInput.swift */,
+				46364B6124CF312F00687C36 /* SettingsController.xib */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		4622A85924CB462A002DA4BF = {
 			isa = PBXGroup;
 			children = (
@@ -97,7 +138,9 @@
 			isa = PBXGroup;
 			children = (
 				4622A86524CB462A002DA4BF /* AppDelegate.swift */,
-				4622A86724CB462A002DA4BF /* ViewController.swift */,
+				46BB599F24CE3A1D00A807FE /* FileInputController.swift */,
+				46BB59A024CE3A1D00A807FE /* FileInputController.xib */,
+				46BB599E24CE39D400A807FE /* GUIEditor */,
 				4622A86924CB462B002DA4BF /* Assets.xcassets */,
 				4622A86B24CB462B002DA4BF /* Main.storyboard */,
 				4622A86E24CB462B002DA4BF /* Info.plist */,
@@ -122,6 +165,24 @@
 				4622A88524CB462B002DA4BF /* Info.plist */,
 			);
 			path = TraceEditorUITests;
+			sourceTree = "<group>";
+		};
+		46BB599E24CE39D400A807FE /* GUIEditor */ = {
+			isa = PBXGroup;
+			children = (
+				46A3C1B324CD49AF00B53881 /* GUIController.swift */,
+				46A3C1B424CD49AF00B53881 /* GUIController.xib */,
+				46B2C38824D0ABBB00D0B7FB /* UniformHandling.swift */,
+				46FF475F24CCB938005A9F16 /* MouseHandling.swift */,
+				46B2C38C24D0ACC900D0B7FB /* KeyHandling.swift */,
+				4622A89124CB472A002DA4BF /* RenderHandling.swift */,
+				4622A89524CB4FA6002DA4BF /* TraceHandling.swift */,
+				46B2C38A24D0AC3500D0B7FB /* TextureHandling.swift */,
+				46BB599C24CE2FBA00A807FE /* FrameViewer.swift */,
+				4622A89324CB4A3B002DA4BF /* Rendering.metal */,
+				460DBA2E24CF52EA006840D2 /* Settings */,
+			);
+			path = GUIEditor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,8 +289,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46BB59A224CE3A1D00A807FE /* FileInputController.xib in Resources */,
 				4622A86A24CB462B002DA4BF /* Assets.xcassets in Resources */,
 				4622A86D24CB462B002DA4BF /* Main.storyboard in Resources */,
+				46364B6324CF312F00687C36 /* SettingsController.xib in Resources */,
+				46A3C1B624CD49AF00B53881 /* GUIController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,8 +318,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4622A86824CB462A002DA4BF /* ViewController.swift in Sources */,
+				46364B6224CF312F00687C36 /* SettingsController.swift in Sources */,
+				46B2C38B24D0AC3500D0B7FB /* TextureHandling.swift in Sources */,
+				46BB59A124CE3A1D00A807FE /* FileInputController.swift in Sources */,
+				4622A89224CB472A002DA4BF /* RenderHandling.swift in Sources */,
+				46B2C38324D0A17000D0B7FB /* ColorPickerInput.swift in Sources */,
+				4622A89424CB4A3B002DA4BF /* Rendering.metal in Sources */,
+				46B2C38924D0ABBB00D0B7FB /* UniformHandling.swift in Sources */,
+				4622A89624CB4FA6002DA4BF /* TraceHandling.swift in Sources */,
+				46FF476024CCB938005A9F16 /* MouseHandling.swift in Sources */,
+				46A3C1B524CD49AF00B53881 /* GUIController.swift in Sources */,
+				46B2C38D24D0ACC900D0B7FB /* KeyHandling.swift in Sources */,
 				4622A86624CB462A002DA4BF /* AppDelegate.swift in Sources */,
+				46BB599D24CE2FBA00A807FE /* FrameViewer.swift in Sources */,
+				460DBA3024CF5305006840D2 /* SliderInput.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

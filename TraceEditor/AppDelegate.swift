@@ -15,6 +15,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+        let controller = FileInputController()
+        let window = NSWindow(contentViewController: controller)
+        window.title = "Trace Editor File Importer"
+        window.makeKeyAndOrderFront(self)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
