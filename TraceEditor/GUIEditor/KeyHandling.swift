@@ -12,10 +12,12 @@ extension GUIController {
     
     override func flagsChanged(with event: NSEvent) {
         let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
-        if flags.contains(.shift) && !flags.contains(.option) {
+        if flags.contains(.shift) && !flags.contains(.option) && !flags.contains(.command) {
             self.selectionType = .addition
-        }else if !flags.contains(.shift) && flags.contains(.option) {
+        }else if !flags.contains(.shift) && flags.contains(.option) && !flags.contains(.command) {
             self.selectionType = .subtraction
+        } else if flags.contains(.command) && !flags.contains(.option) && !flags.contains(.shift) {
+            self.selectionType = .negative
         }else {
             self.selectionType = .single
         }

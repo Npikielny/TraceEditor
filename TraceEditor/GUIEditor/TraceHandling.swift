@@ -7,21 +7,38 @@
 //
 
 import Foundation
+
+struct Trace {
+    var index: Int32
+    var selected: Bool = false
+    var type: Int32
+    var parent: Int32 = -1
+    func getType() -> TraceType {
+        return TraceType(rawValue: self.type) ?? .Undefined
+    }
+}
+
+enum TraceType: Int32 {
+    case OligoProcess = 0
+    case NG2Process = 1
+    case Axon = 2
+    case Undefined = 3
+}
+
+struct Point {
+    var n: Int32
+    var type: Int32
+    var position: SIMD3<Float>
+    var radius: Float
+    var parent: Int32
+    var trace: Int32 = 0
+    func getType() -> TraceType {
+        return TraceType(rawValue: self.type) ?? .Undefined
+    }
+}
+
 extension GUIController {
-    struct Trace {
-        var index: Int32
-        var selected: Bool = false
-    }
-
-    struct Point {
-        var n: Int32
-        var type: Int32
-        var position: SIMD3<Float>
-        var radius: Float
-        var parent: Int32
-        var trace: Int32 = 0
-    }
-
+    
     func isFloat(_ text: String) -> Bool {
         if let _ = Float(text) {
             return true
@@ -46,12 +63,14 @@ extension GUIController {
                                            radius: $0[5],
                                            parent: Int32($0[6]))})
             var traceIndex: Int32 = -1
+            var lastType: Int32 = points[0].type
             for i in 0..<points.count {
                 if points[i].parent == -1 {
                     traceIndex += 1
-                    traces.append(Trace(index: traceIndex))
+                    traces.append(Trace(index: traceIndex, type: lastType))
                 }
                 points[i].trace = traceIndex
+                lastType = points[i].type
             }
         } catch {
             throw error
@@ -65,7 +84,7 @@ extension GUIController {
         do {
             let data = try getTraces(FilePath)
             self.traces = data.0
-            self.tracesBuffer = device!.makeBuffer(bytes: data.0, length: MemoryLayout<Trace>.stride*data.0.count, options: .storageModeManaged)!
+            self.tracesBuffer = device!.makeBuffer(bytes: data.0, length: MemoryLayout<Trace>.stride*data.0.count, options: .storageModeShared)!
             self.points = data.1
             self.pointsBuffer = device?.makeBuffer(bytes: data.1, length: MemoryLayout<Point>.stride*data.1.count, options: .storageModeManaged)
         } catch {

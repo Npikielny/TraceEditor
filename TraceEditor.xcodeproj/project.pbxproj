@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4601979324D35AFC007B0B32 /* TraceLayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4601979124D35AFC007B0B32 /* TraceLayoutController.swift */; };
+		4601979424D35AFC007B0B32 /* TraceLayoutController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4601979224D35AFC007B0B32 /* TraceLayoutController.xib */; };
+		4601979824D35C5C007B0B32 /* TraceLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4601979624D35C5C007B0B32 /* TraceLayoutCell.swift */; };
+		4601979924D35C5C007B0B32 /* TraceLayoutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4601979724D35C5C007B0B32 /* TraceLayoutCell.xib */; };
 		460DBA3024CF5305006840D2 /* SliderInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460DBA2F24CF5305006840D2 /* SliderInput.swift */; };
 		4622A86624CB462A002DA4BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4622A86524CB462A002DA4BF /* AppDelegate.swift */; };
 		4622A86A24CB462B002DA4BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4622A86924CB462B002DA4BF /* Assets.xcassets */; };
@@ -18,6 +22,10 @@
 		4622A89624CB4FA6002DA4BF /* TraceHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4622A89524CB4FA6002DA4BF /* TraceHandling.swift */; };
 		46364B6224CF312F00687C36 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46364B6024CF312F00687C36 /* SettingsController.swift */; };
 		46364B6324CF312F00687C36 /* SettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46364B6124CF312F00687C36 /* SettingsController.xib */; };
+		4645D32824D49A5200F0A79D /* TraceCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4645D32724D49A5200F0A79D /* TraceCollectionView.swift */; };
+		4645D32A24D49C9600F0A79D /* SelectionTypeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4645D32924D49C9600F0A79D /* SelectionTypeCollectionView.swift */; };
+		4645D32D24D49CA800F0A79D /* SelectionTypeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4645D32B24D49CA800F0A79D /* SelectionTypeItem.swift */; };
+		4645D32E24D49CA800F0A79D /* SelectionTypeItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4645D32C24D49CA800F0A79D /* SelectionTypeItem.xib */; };
 		46A3C1B524CD49AF00B53881 /* GUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A3C1B324CD49AF00B53881 /* GUIController.swift */; };
 		46A3C1B624CD49AF00B53881 /* GUIController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46A3C1B424CD49AF00B53881 /* GUIController.xib */; };
 		46B2C38324D0A17000D0B7FB /* ColorPickerInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B2C38224D0A17000D0B7FB /* ColorPickerInput.swift */; };
@@ -48,6 +56,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4601979124D35AFC007B0B32 /* TraceLayoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLayoutController.swift; sourceTree = "<group>"; };
+		4601979224D35AFC007B0B32 /* TraceLayoutController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TraceLayoutController.xib; sourceTree = "<group>"; };
+		4601979624D35C5C007B0B32 /* TraceLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLayoutCell.swift; sourceTree = "<group>"; };
+		4601979724D35C5C007B0B32 /* TraceLayoutCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TraceLayoutCell.xib; sourceTree = "<group>"; };
 		460DBA2F24CF5305006840D2 /* SliderInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderInput.swift; sourceTree = "<group>"; };
 		4622A86224CB462A002DA4BF /* TraceEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TraceEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4622A86524CB462A002DA4BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +78,10 @@
 		4622A89524CB4FA6002DA4BF /* TraceHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceHandling.swift; sourceTree = "<group>"; };
 		46364B6024CF312F00687C36 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		46364B6124CF312F00687C36 /* SettingsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsController.xib; sourceTree = "<group>"; };
+		4645D32724D49A5200F0A79D /* TraceCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceCollectionView.swift; sourceTree = "<group>"; };
+		4645D32924D49C9600F0A79D /* SelectionTypeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTypeCollectionView.swift; sourceTree = "<group>"; };
+		4645D32B24D49CA800F0A79D /* SelectionTypeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTypeItem.swift; sourceTree = "<group>"; };
+		4645D32C24D49CA800F0A79D /* SelectionTypeItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectionTypeItem.xib; sourceTree = "<group>"; };
 		46A3C1B324CD49AF00B53881 /* GUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUIController.swift; sourceTree = "<group>"; };
 		46A3C1B424CD49AF00B53881 /* GUIController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GUIController.xib; sourceTree = "<group>"; };
 		46B2C38224D0A17000D0B7FB /* ColorPickerInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerInput.swift; sourceTree = "<group>"; };
@@ -103,6 +119,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4601979524D35B05007B0B32 /* Trace Layout */ = {
+			isa = PBXGroup;
+			children = (
+				4601979124D35AFC007B0B32 /* TraceLayoutController.swift */,
+				4645D32724D49A5200F0A79D /* TraceCollectionView.swift */,
+				4601979224D35AFC007B0B32 /* TraceLayoutController.xib */,
+				4601979624D35C5C007B0B32 /* TraceLayoutCell.swift */,
+				4601979724D35C5C007B0B32 /* TraceLayoutCell.xib */,
+				4645D32924D49C9600F0A79D /* SelectionTypeCollectionView.swift */,
+				4645D32B24D49CA800F0A79D /* SelectionTypeItem.swift */,
+				4645D32C24D49CA800F0A79D /* SelectionTypeItem.xib */,
+			);
+			path = "Trace Layout";
+			sourceTree = "<group>";
+		};
 		460DBA2E24CF52EA006840D2 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +212,7 @@
 				46BB599C24CE2FBA00A807FE /* FrameViewer.swift */,
 				4622A89324CB4A3B002DA4BF /* Rendering.metal */,
 				460DBA2E24CF52EA006840D2 /* Settings */,
+				4601979524D35B05007B0B32 /* Trace Layout */,
 			);
 			path = GUIEditor;
 			sourceTree = "<group>";
@@ -290,8 +322,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				46BB59A224CE3A1D00A807FE /* FileInputController.xib in Resources */,
+				4601979424D35AFC007B0B32 /* TraceLayoutController.xib in Resources */,
 				4622A86A24CB462B002DA4BF /* Assets.xcassets in Resources */,
 				4622A86D24CB462B002DA4BF /* Main.storyboard in Resources */,
+				4601979924D35C5C007B0B32 /* TraceLayoutCell.xib in Resources */,
+				4645D32E24D49CA800F0A79D /* SelectionTypeItem.xib in Resources */,
 				46364B6324CF312F00687C36 /* SettingsController.xib in Resources */,
 				46A3C1B624CD49AF00B53881 /* GUIController.xib in Resources */,
 			);
@@ -327,11 +362,16 @@
 				46B2C38924D0ABBB00D0B7FB /* UniformHandling.swift in Sources */,
 				4622A89624CB4FA6002DA4BF /* TraceHandling.swift in Sources */,
 				46FF476024CCB938005A9F16 /* MouseHandling.swift in Sources */,
+				4645D32824D49A5200F0A79D /* TraceCollectionView.swift in Sources */,
 				46A3C1B524CD49AF00B53881 /* GUIController.swift in Sources */,
+				4645D32D24D49CA800F0A79D /* SelectionTypeItem.swift in Sources */,
 				46B2C38D24D0ACC900D0B7FB /* KeyHandling.swift in Sources */,
 				4622A86624CB462A002DA4BF /* AppDelegate.swift in Sources */,
+				4645D32A24D49C9600F0A79D /* SelectionTypeCollectionView.swift in Sources */,
 				46BB599D24CE2FBA00A807FE /* FrameViewer.swift in Sources */,
+				4601979824D35C5C007B0B32 /* TraceLayoutCell.swift in Sources */,
 				460DBA3024CF5305006840D2 /* SliderInput.swift in Sources */,
+				4601979324D35AFC007B0B32 /* TraceLayoutController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

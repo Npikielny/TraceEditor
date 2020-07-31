@@ -35,9 +35,17 @@ vertex CopyVertexOut copyVertex(unsigned short vid [[vertex_id]]) {
     return out;
 }
 
+//Type Key:
+//    Oligo = 0,
+//    NG2 = 1,
+//    Axon = 2,
+//    Undefined = 3
+
 struct Trace {
     int index;
     bool selected;
+    int type;
+    int parent;
 };
 
 struct Point {
@@ -53,6 +61,7 @@ typedef enum SelectionType {
     single = 0,
     addition = 1,
     subtraction = 2,
+    negative = 3
 } SelectionType;
 
 struct Uniform {
@@ -205,9 +214,13 @@ kernel void draw(uint2 tid [[thread_position_in_grid]],
     
     int2 difference = int2(point.position.xy) - int2(uniform.center);
     if (abs(difference.x) < uniform.size.x / 2 && abs(difference.y) < uniform.size.y / 2) {
-        if (uniform.selectionType == single || uniform.selectionType == addition) {
+        if (uniform.selectionType == single || uniform.selectionType == addition || uniform.selectionType == negative) {
             if (abs(point.position.z - uniform.frame) <= 5) {
-                traces[point.trace].selected = true;
+                if (uniform.selectionType == negative) {
+                    traces[point.trace].selected = !traces[point.trace].selected;
+                }else {
+                    traces[point.trace].selected = true;
+                }
             }
         }else {
             if (uniform.showSelection || abs(point.position.z - uniform.frame) <= 5) {

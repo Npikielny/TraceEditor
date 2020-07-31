@@ -54,5 +54,10 @@ extension GUIController: MTKViewDelegate {
                 commandBuffer!.commit()
             }
         }
+        let updatedTraces = self.tracesBuffer!.contents().bindMemory(to: Trace.self, capacity: self.traces!.count)
+        let tracesCollectionView = (self.traceWindow.contentViewController as! TraceLayoutController).traceCollectionView.collectionView
+        for i in 0..<self.traces!.count {
+            tracesCollectionView.item(at: IndexPath(item: i, section: 0))?.isSelected = updatedTraces[i].selected
+        }
     }
 }

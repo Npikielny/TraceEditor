@@ -25,7 +25,7 @@ extension GUIController {
             }
             let pointer = self.tracesBuffer?.contents()
             memcpy(pointer, self.traces!, MemoryLayout<Trace>.stride*self.traces!.count)
-            self.tracesBuffer?.didModifyRange(Range<Int>.init(NSRange(location: 0, length: self.tracesBuffer!.length))!)
+//            self.tracesBuffer?.didModifyRange(Range<Int>.init(NSRange(location: 0, length: self.tracesBuffer!.length))!)
         }
         self.startingPosition = getPosition(event: event)
         self.endingPosition = getPosition(event: event)
@@ -39,7 +39,7 @@ extension GUIController {
                 }
                 let pointer = self.tracesBuffer?.contents()
                 memcpy(pointer, self.traces!, MemoryLayout<Trace>.stride*self.traces!.count)
-                self.tracesBuffer?.didModifyRange(Range<Int>.init(NSRange(location: 0, length: self.tracesBuffer!.length))!)
+//                self.tracesBuffer?.didModifyRange(Range<Int>.init(NSRange(location: 0, length: self.tracesBuffer!.length))!)
             }
             self.endingPosition = getPosition(event: event)
         }

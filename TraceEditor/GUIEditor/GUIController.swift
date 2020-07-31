@@ -10,6 +10,8 @@ import MetalKit
 
 class GUIController: NSViewController {
     
+    var traceWindow: NSWindow!
+    
     convenience init(ImageDirectory: String, TracesDirectory: String) {
         self.init(nibName: "GUIController", bundle: nil)
         
@@ -21,6 +23,10 @@ class GUIController: NSViewController {
         setupUniform(PointCount: Int32(self.points!.count), Dimensions: SIMD3<Float>(Float(self.presentingImage!.width),Float(self.presentingImage!.height),0))
         
         mtkView(imageHolder, drawableSizeWillChange: CGSize(width: textures[0].width,height: textures[0].height))
+        
+        let traceController = TraceLayoutController(guiController: self)
+        traceWindow = NSWindow(contentViewController: traceController)
+        traceWindow.makeKeyAndOrderFront(self)
     }
     
     lazy var imageHolder: MTKView = {
@@ -164,6 +170,8 @@ class GUIController: NSViewController {
     var selectionType: SelectionType = .single {
         didSet {
             self.editUniform()
+            (self.traceWindow.contentViewController as! TraceLayoutController).selectionCollectionView.collectionView.deselectAll(self)
+            (self.traceWindow.contentViewController as! TraceLayoutController).selectionCollectionView.collectionView.selectItems(at: Set<IndexPath>(arrayLiteral: IndexPath(item: Int(self.selectionType.rawValue), section: 0)), scrollPosition: NSCollectionView.ScrollPosition.top)
         }
     }
     
@@ -171,6 +179,7 @@ class GUIController: NSViewController {
         case single
         case addition
         case subtraction
+        case negative
     }
 //    override func performKeyEquivalent(with event: NSEvent) -> Bool {
 //        return true
