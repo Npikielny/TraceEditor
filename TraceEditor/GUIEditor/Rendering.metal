@@ -65,9 +65,11 @@ typedef enum SelectionType {
 } SelectionType;
 
 struct Uniform {
+    int pointWidth;
     int pointCount;
-    float3 dimension;
-    float3 imageSize;
+    
+    float3 dimension; // Pixels
+    float3 imageSize; // Converted Position
     int frame;
     bool selecting;
     int selectionType;
@@ -75,7 +77,11 @@ struct Uniform {
     int2 size;
     float3 selectionColor;
     
-    float3 baseColor;
+    float3 OligoColor;
+    float3 NG2Color;
+    float3 AxonColor;
+    float3 UndefinedColor;
+    
     float fade;
     float embolden;
     bool showImages;
@@ -178,11 +184,12 @@ float4 getColor(int trace) {
 //    array<int, 2> values;
 //};
 
-void write (float3 position, int frame, int2 imageDimension, float embolden, float fade, bool selected, float3 color, bool showSelection, texture2d<float, access::read_write> image) {
-    int sideLength = int(embolden / clamp(abs(float(frame) - position.z)/4,float(1),INFINITY));
+void write (float3 position, float radius, int frame, int2 imageDimension, float embolden, float fade, bool selected, float3 color, bool showSelection, texture2d<float, access::read_write> image) {
+    int sideLength = int(embolden*radius / clamp(abs(float(frame) - position.z)/4,float(1),INFINITY));
     if (selected && showSelection) {
         sideLength = 5;
     }
+    
     for (int x = - sideLength/2; x <= sideLength / 2; x ++) {
         for (int y = - sideLength/2; y <= sideLength / 2; y ++) {
             int2 writingCoords = int2(position.xy) + int2(x,y);
@@ -204,12 +211,28 @@ void write (float3 position, int frame, int2 imageDimension, float embolden, flo
     }
 }
 
+float3 getColor (int neuronType, constant Uniform & uniform) {
+    if (neuronType == 0) {
+        return uniform.OligoColor;
+    }
+    if (neuronType == 1) {
+        return uniform.NG2Color;
+    }
+    if (neuronType == 2) {
+        return uniform.AxonColor;
+    }
+    return uniform.UndefinedColor;
+}
+
 kernel void draw(uint2 tid [[thread_position_in_grid]],
                  device Trace *traces [[buffer(0)]],
                  constant Point *points [[buffer(1)]],
                  constant Uniform &uniform [[buffer(2)]],
                  texture2d<float, access::read_write> presentingImage [[texture(1)]]) {
-    int Index = tid.x + tid.y * uniform.pointCount;
+    int Index = tid.x + tid.y * uniform.pointWidth;
+    
+    if (Index >= uniform.pointCount) {return;}
+    
     constant Point &point = points[Index];
     
     int2 difference = int2(point.position.xy) - int2(uniform.center);
@@ -244,7 +267,7 @@ kernel void draw(uint2 tid [[thread_position_in_grid]],
             for (int t = 0; t < int(dist); t ++) {
                 float3 position = last.position + difference*float(t)/float(int(dist));
                 if (!compareVector(presentingImage.read(uint2(position.xy)), float4(1))) {
-                    write(position, uniform.frame, int2(uniform.dimension.xy), uniform.embolden, uniform.fade, traces[point.trace].selected, traces[point.trace].selected?uniform.selectionColor:uniform.baseColor, uniform.showSelection, presentingImage);
+                    write(position, point.radius, uniform.frame, int2(uniform.dimension.xy), uniform.embolden, uniform.fade, traces[point.trace].selected, traces[point.trace].selected?uniform.selectionColor:getColor(traces[point.trace].type, uniform), uniform.showSelection, presentingImage);
                 }
             }
         }
@@ -257,5 +280,5 @@ kernel void draw(uint2 tid [[thread_position_in_grid]],
 //            }
 //        }
     }
-    write(point.position, uniform.frame, int2(uniform.dimension.xy), uniform.embolden, uniform.fade, traces[point.trace].selected, traces[point.trace].selected?uniform.selectionColor:uniform.baseColor, uniform.showSelection, presentingImage);
+    write(point.position, point.radius, uniform.frame, int2(uniform.dimension.xy), uniform.embolden, uniform.fade, traces[point.trace].selected, traces[point.trace].selected?uniform.selectionColor:getColor(traces[point.trace].type, uniform), uniform.showSelection, presentingImage);
 }

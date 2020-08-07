@@ -26,8 +26,13 @@ extension GUIController {
     }
     override func keyDown(with event: NSEvent) {
         print(event.keyCode)
-        if [7,51,117].contains(event.keyCode) {
-            
+        if [7,51,117].contains(event.keyCode) { // Delete (or x)
+            deleteTrace()
+        } else if event.keyCode == 0{
+            for i in 0..<self.traces!.count {
+                self.traces![i].selected = true
+                memcpy(self.tracesBuffer?.contents(), self.traces, self.tracesBuffer!.length)
+            }
         } else {
             print(event.keyCode)
         }

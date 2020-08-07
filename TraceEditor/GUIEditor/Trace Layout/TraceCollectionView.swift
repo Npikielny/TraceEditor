@@ -84,6 +84,7 @@ class TraceCollectionView: NSView, NSCollectionViewDelegate, NSCollectionViewDel
         default:
             item.type.string = "Undefined"
         }
+        item.isSelected = self.controller.traces![indexPath.item].selected
         return item
     }
     

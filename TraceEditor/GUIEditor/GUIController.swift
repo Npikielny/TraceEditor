@@ -26,6 +26,7 @@ class GUIController: NSViewController {
         
         let traceController = TraceLayoutController(guiController: self)
         traceWindow = NSWindow(contentViewController: traceController)
+        traceWindow.title = "Trace Layout"
         traceWindow.makeKeyAndOrderFront(self)
     }
     
@@ -94,7 +95,7 @@ class GUIController: NSViewController {
         }else {
             settingsWindow = NSWindow(contentViewController: SettingsController())
             (settingsWindow!.contentViewController as! SettingsController).guiController = self
-            settingsWindow?.setFrame(NSRect(x: view.frame.width, y: 0, width: 200, height: 350), display: false)
+            settingsWindow?.setFrame(NSRect(x: view.frame.width, y: 0, width: 200, height: 400), display: false)
             settingsWindow!.title = "Settings"
             settingsWindow!.makeKeyAndOrderFront(self)
         }

@@ -26,6 +26,8 @@
 		4645D32A24D49C9600F0A79D /* SelectionTypeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4645D32924D49C9600F0A79D /* SelectionTypeCollectionView.swift */; };
 		4645D32D24D49CA800F0A79D /* SelectionTypeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4645D32B24D49CA800F0A79D /* SelectionTypeItem.swift */; };
 		4645D32E24D49CA800F0A79D /* SelectionTypeItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4645D32C24D49CA800F0A79D /* SelectionTypeItem.xib */; };
+		469909D424D7ACF700C63A0C /* EditNeuronController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469909D224D7ACF700C63A0C /* EditNeuronController.swift */; };
+		469909D524D7ACF700C63A0C /* EditNeuronController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 469909D324D7ACF700C63A0C /* EditNeuronController.xib */; };
 		46A3C1B524CD49AF00B53881 /* GUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A3C1B324CD49AF00B53881 /* GUIController.swift */; };
 		46A3C1B624CD49AF00B53881 /* GUIController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46A3C1B424CD49AF00B53881 /* GUIController.xib */; };
 		46B2C38324D0A17000D0B7FB /* ColorPickerInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B2C38224D0A17000D0B7FB /* ColorPickerInput.swift */; };
@@ -82,6 +84,8 @@
 		4645D32924D49C9600F0A79D /* SelectionTypeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTypeCollectionView.swift; sourceTree = "<group>"; };
 		4645D32B24D49CA800F0A79D /* SelectionTypeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTypeItem.swift; sourceTree = "<group>"; };
 		4645D32C24D49CA800F0A79D /* SelectionTypeItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectionTypeItem.xib; sourceTree = "<group>"; };
+		469909D224D7ACF700C63A0C /* EditNeuronController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNeuronController.swift; sourceTree = "<group>"; };
+		469909D324D7ACF700C63A0C /* EditNeuronController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditNeuronController.xib; sourceTree = "<group>"; };
 		46A3C1B324CD49AF00B53881 /* GUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUIController.swift; sourceTree = "<group>"; };
 		46A3C1B424CD49AF00B53881 /* GUIController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GUIController.xib; sourceTree = "<group>"; };
 		46B2C38224D0A17000D0B7FB /* ColorPickerInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerInput.swift; sourceTree = "<group>"; };
@@ -130,6 +134,8 @@
 				4645D32924D49C9600F0A79D /* SelectionTypeCollectionView.swift */,
 				4645D32B24D49CA800F0A79D /* SelectionTypeItem.swift */,
 				4645D32C24D49CA800F0A79D /* SelectionTypeItem.xib */,
+				469909D224D7ACF700C63A0C /* EditNeuronController.swift */,
+				469909D324D7ACF700C63A0C /* EditNeuronController.xib */,
 			);
 			path = "Trace Layout";
 			sourceTree = "<group>";
@@ -329,6 +335,7 @@
 				4645D32E24D49CA800F0A79D /* SelectionTypeItem.xib in Resources */,
 				46364B6324CF312F00687C36 /* SettingsController.xib in Resources */,
 				46A3C1B624CD49AF00B53881 /* GUIController.xib in Resources */,
+				469909D524D7ACF700C63A0C /* EditNeuronController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +366,7 @@
 				4622A89224CB472A002DA4BF /* RenderHandling.swift in Sources */,
 				46B2C38324D0A17000D0B7FB /* ColorPickerInput.swift in Sources */,
 				4622A89424CB4A3B002DA4BF /* Rendering.metal in Sources */,
+				469909D424D7ACF700C63A0C /* EditNeuronController.swift in Sources */,
 				46B2C38924D0ABBB00D0B7FB /* UniformHandling.swift in Sources */,
 				4622A89624CB4FA6002DA4BF /* TraceHandling.swift in Sources */,
 				46FF476024CCB938005A9F16 /* MouseHandling.swift in Sources */,

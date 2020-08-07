@@ -26,18 +26,42 @@ class SettingsController: NSViewController {
         }
     }
     //Embolden Size
-    var emboldenInput = SliderInput(Title: "Highlight", Min: 1, Max: 10, Current: 5)
+    var emboldenInput = SliderInput(Title: "Highlight", Min: 0.1, Max: 5, Current: 1)
     var embolden: Float = 5 {
         didSet {
             self.guiController.uniform.embolden = self.embolden
             self.guiController.editUniform()
         }
     }
-    //Selection Color Picker
-    var baseColorInput = ColorPickerInput("Base Color: ", NSColor.red)
-    var baseColor: NSColor = .red {
+    //Oligo Color Picker
+    var OligoColorInput = ColorPickerInput("Oligo Color: ", NSColor.green)
+    var OligoColor: NSColor = .green {
         didSet {
-            self.guiController.uniform.baseColor = SIMD3<Float>(Float(self.baseColor.redComponent), Float(self.baseColor.greenComponent), Float(self.baseColor.blueComponent))
+            self.guiController.uniform.OligoColor = SIMD3<Float>(Float(self.OligoColor.redComponent), Float(self.OligoColor.greenComponent), Float(self.OligoColor.blueComponent))
+            self.guiController.editUniform()
+        }
+    }
+    //NG2 Color Picker
+    var NG2ColorInput = ColorPickerInput("NG2 Color: ", NSColor.red)
+    var NG2Color: NSColor = .red {
+        didSet {
+            self.guiController.uniform.NG2Color = SIMD3<Float>(Float(self.NG2Color.redComponent), Float(self.NG2Color.greenComponent), Float(self.NG2Color.blueComponent))
+            self.guiController.editUniform()
+        }
+    }
+    //Axon Color Picker
+    var AxonColorInput = ColorPickerInput("Axon Color: ", NSColor.cyan)
+    var AxonColor: NSColor = .cyan {
+        didSet {
+            self.guiController.uniform.AxonColor = SIMD3<Float>(Float(self.AxonColor.redComponent), Float(self.AxonColor.greenComponent), Float(self.AxonColor.blueComponent))
+            self.guiController.editUniform()
+        }
+    }
+    //Undefined Color Picker
+    var UndefinedColorInput = ColorPickerInput("Undefined: ", NSColor.yellow)
+    var UndefinedColor: NSColor = .yellow {
+        didSet {
+            self.guiController.uniform.UndefinedColor = SIMD3<Float>(Float(self.UndefinedColor.redComponent), Float(self.UndefinedColor.greenComponent), Float(self.UndefinedColor.blueComponent))
             self.guiController.editUniform()
         }
     }
@@ -93,19 +117,33 @@ class SettingsController: NSViewController {
         
         emboldenInput.executable = { self.embolden = $0 }
         
-        view.addSubview(baseColorInput)
-        baseColorInput.topAnchor.constraint(equalTo: emboldenInput.bottomAnchor, constant: 5).isActive = true
-        baseColorInput.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        baseColorInput.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        baseColorInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        baseColorInput.executable = { self.baseColor = $0 }
+        var last = emboldenInput.bottomAnchor
+        [OligoColorInput, NG2ColorInput, AxonColorInput, UndefinedColorInput].forEach({
+            view.addSubview($0)
+            $0.topAnchor.constraint(equalTo: last, constant: 5).isActive = true
+            $0.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+            $0.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            
+            last = $0.bottomAnchor
+        })
+        OligoColorInput.executable = {self.OligoColor = $0}
+        NG2ColorInput.executable = {self.NG2Color = $0}
+        AxonColorInput.executable = {self.AxonColor = $0}
+        UndefinedColorInput.executable = {self.UndefinedColor = $0}
+//        view.addSubview(baseColorInput)
+//        baseColorInput.topAnchor.constraint(equalTo: emboldenInput.bottomAnchor, constant: 5).isActive = true
+//        baseColorInput.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+//        baseColorInput.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+//        baseColorInput.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//
+//        baseColorInput.executable = { self.baseColor = $0 }
         
         view.addSubview(selectionColorInput)
-        selectionColorInput.topAnchor.constraint(equalTo: baseColorInput.bottomAnchor, constant: 5).isActive = true
+        selectionColorInput.topAnchor.constraint(equalTo: last, constant: 5).isActive = true
         selectionColorInput.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         selectionColorInput.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        selectionColorInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        selectionColorInput.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         selectionColorInput.executable = { self.selectionColor = $0 }
         

@@ -25,8 +25,8 @@ extension GUIController: MTKViewDelegate {
 //                self.needsCopy = false
             }
             if uniform.showTraces {
-                if let _ = self.points {
-                    if self.points!.count > 0 {
+                if let _ = self.points, let _ = self.traces {
+                    if self.points!.count > 0 && self.traces!.count > 0{
                         let drawEncoder = commandBuffer?.makeComputeCommandEncoder()
                         drawEncoder?.setComputePipelineState(self.drawPipeline!)
                         drawEncoder?.setBuffers([self.tracesBuffer, self.pointsBuffer, self.uniformBuffer], offsets: [0,0,0], range: 0..<3)
@@ -57,7 +57,9 @@ extension GUIController: MTKViewDelegate {
         let updatedTraces = self.tracesBuffer!.contents().bindMemory(to: Trace.self, capacity: self.traces!.count)
         let tracesCollectionView = (self.traceWindow.contentViewController as! TraceLayoutController).traceCollectionView.collectionView
         for i in 0..<self.traces!.count {
-            tracesCollectionView.item(at: IndexPath(item: i, section: 0))?.isSelected = updatedTraces[i].selected
+            self.traces![i].selected = updatedTraces[i].selected
+//            tracesCollectionView.item(at: IndexPath(item: i, section: 0))?.isSelected = updatedTraces[i].selected
         }
+        tracesCollectionView.reloadData()
     }
 }
