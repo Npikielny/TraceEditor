@@ -33,27 +33,27 @@ class SettingsController: NSViewController {
             self.guiController.editUniform()
         }
     }
-    //Oligo Color Picker
-    var OligoColorInput = ColorPickerInput("Oligo Color: ", NSColor.green)
-    var OligoColor: NSColor = .green {
+    //Soma Color Picker
+    var CellBodyColorInput = ColorPickerInput("Soma Color: ", NSColor.green)
+    var CellBodyColor: NSColor = .green {
         didSet {
-            self.guiController.uniform.OligoColor = SIMD3<Float>(Float(self.OligoColor.redComponent), Float(self.OligoColor.greenComponent), Float(self.OligoColor.blueComponent))
+            self.guiController.uniform.CellBodyColor = SIMD3<Float>(Float(self.CellBodyColor.redComponent), Float(self.CellBodyColor.greenComponent), Float(self.CellBodyColor.blueComponent))
             self.guiController.editUniform()
         }
     }
-    //NG2 Color Picker
-    var NG2ColorInput = ColorPickerInput("NG2 Color: ", NSColor.red)
-    var NG2Color: NSColor = .red {
+    //Process Color Picker
+    var ProcessColorInput = ColorPickerInput("Process Color: ", NSColor.red)
+    var ProcessColor: NSColor = .red {
         didSet {
-            self.guiController.uniform.NG2Color = SIMD3<Float>(Float(self.NG2Color.redComponent), Float(self.NG2Color.greenComponent), Float(self.NG2Color.blueComponent))
+            self.guiController.uniform.ProcessColor = SIMD3<Float>(Float(self.ProcessColor.redComponent), Float(self.ProcessColor.greenComponent), Float(self.ProcessColor.blueComponent))
             self.guiController.editUniform()
         }
     }
-    //Axon Color Picker
-    var AxonColorInput = ColorPickerInput("Axon Color: ", NSColor.cyan)
-    var AxonColor: NSColor = .cyan {
+    //Sheath Color Picker
+    var SheathColorInput = ColorPickerInput("Sheath Color: ", NSColor.cyan)
+    var SheathColor: NSColor = .cyan {
         didSet {
-            self.guiController.uniform.AxonColor = SIMD3<Float>(Float(self.AxonColor.redComponent), Float(self.AxonColor.greenComponent), Float(self.AxonColor.blueComponent))
+            self.guiController.uniform.SheathColor = SIMD3<Float>(Float(self.SheathColor.redComponent), Float(self.SheathColor.greenComponent), Float(self.SheathColor.blueComponent))
             self.guiController.editUniform()
         }
     }
@@ -118,7 +118,7 @@ class SettingsController: NSViewController {
         emboldenInput.executable = { self.embolden = $0 }
         
         var last = emboldenInput.bottomAnchor
-        [OligoColorInput, NG2ColorInput, AxonColorInput, UndefinedColorInput].forEach({
+        [CellBodyColorInput, ProcessColorInput, SheathColorInput, UndefinedColorInput].forEach({
             view.addSubview($0)
             $0.topAnchor.constraint(equalTo: last, constant: 5).isActive = true
             $0.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -127,9 +127,9 @@ class SettingsController: NSViewController {
             
             last = $0.bottomAnchor
         })
-        OligoColorInput.executable = {self.OligoColor = $0}
-        NG2ColorInput.executable = {self.NG2Color = $0}
-        AxonColorInput.executable = {self.AxonColor = $0}
+        CellBodyColorInput.executable = {self.CellBodyColor = $0}
+        ProcessColorInput.executable = {self.ProcessColor = $0}
+        SheathColorInput.executable = {self.SheathColor = $0}
         UndefinedColorInput.executable = {self.UndefinedColor = $0}
 //        view.addSubview(baseColorInput)
 //        baseColorInput.topAnchor.constraint(equalTo: emboldenInput.bottomAnchor, constant: 5).isActive = true

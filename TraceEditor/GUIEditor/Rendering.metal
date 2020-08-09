@@ -36,9 +36,9 @@ vertex CopyVertexOut copyVertex(unsigned short vid [[vertex_id]]) {
 }
 
 //Type Key:
-//    Oligo = 0,
-//    NG2 = 1,
-//    Axon = 2,
+//    Cell Body = 0,
+//    Process = 1,
+//    Sheath = 2,
 //    Undefined = 3
 
 struct Trace {
@@ -77,9 +77,9 @@ struct Uniform {
     int2 size;
     float3 selectionColor;
     
-    float3 OligoColor;
-    float3 NG2Color;
-    float3 AxonColor;
+    float3 CellBodyColor;
+    float3 ProximalProcessColor;
+    float3 SheathColor;
     float3 UndefinedColor;
     
     float fade;
@@ -213,13 +213,13 @@ void write (float3 position, float radius, int frame, int2 imageDimension, float
 
 float3 getColor (int neuronType, constant Uniform & uniform) {
     if (neuronType == 0) {
-        return uniform.OligoColor;
+        return uniform.CellBodyColor;
     }
     if (neuronType == 1) {
-        return uniform.NG2Color;
+        return uniform.ProximalProcessColor;
     }
     if (neuronType == 2) {
-        return uniform.AxonColor;
+        return uniform.SheathColor;
     }
     return uniform.UndefinedColor;
 }

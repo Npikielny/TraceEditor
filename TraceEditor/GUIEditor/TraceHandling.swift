@@ -8,6 +8,10 @@
 
 import Foundation
 
+func Import() {
+    
+}
+
 struct Trace {
     var index: Int32
     var selected: Bool = false
@@ -19,9 +23,9 @@ struct Trace {
 }
 
 enum TraceType: Int32 {
-    case OligoProcess = 0
-    case NG2Process = 1
-    case Axon = 2
+    case CellBody = 0
+    case ProximalProcess = 1
+    case Sheath = 2
     case Undefined = 3
 }
 

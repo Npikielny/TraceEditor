@@ -75,12 +75,12 @@ class TraceCollectionView: NSView, NSCollectionViewDelegate, NSCollectionViewDel
         let item = collectionView.makeItem(withIdentifier: TraceLayoutCell.reuseIdentifier, for: indexPath) as! TraceLayoutCell
         item.number.string = String(indexPath.item)
         switch controller.traces![indexPath.item].getType() {
-        case .OligoProcess:
-            item.type.string = "Oligo"
-        case .NG2Process:
-            item.type.string = "NG2"
-        case .Axon:
-            item.type.string = "Axon"
+        case .CellBody:
+            item.type.string = "Cell Body"
+        case .ProximalProcess:
+            item.type.string = "Process"
+        case .Sheath:
+            item.type.string = "Sheath"
         default:
             item.type.string = "Undefined"
         }

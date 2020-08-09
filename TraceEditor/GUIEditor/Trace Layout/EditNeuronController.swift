@@ -101,7 +101,7 @@ class EditNeuronController: NSViewController, NSCollectionViewDelegate, NSCollec
     }
     
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-        let selectionTypes = ["Oligodendrocyte", "NG2 Progenitor", "Neuron", "Undefined"]
+        let selectionTypes = ["Cell Body", "Process", "Sheath", "Undefined"]
         let item = collectionView.makeItem(withIdentifier: SelectionTypeItem.reuseIdentifier, for: indexPath) as! SelectionTypeItem
         if indexPath.item == 0 {
             item.view.layer?.cornerRadius = 15
