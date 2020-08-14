@@ -10,50 +10,73 @@ import MetalKit
 
 extension GUIController {
     
-    func loadTextures(_ FilePath: String) -> [MTLTexture] {
-        let textureLoader = MTKTextureLoader(device: device!)
-        let textureLoaderOption = [
-            MTKTextureLoader.Option.allocateMipmaps: NSNumber(value: false),
-            MTKTextureLoader.Option.SRGB: NSNumber(value: false),
-        ]
-         var tempTextures = [(Int,MTLTexture)]()
-        let fileManager = FileManager.default
-        let enumerator:FileManager.DirectoryEnumerator = fileManager.enumerator(atPath: FilePath)!
-        do {
-            while let element = enumerator.nextObject() as? String {
-                if element.hasSuffix("tiff") {
-                    let url = URL(fileURLWithPath: FilePath+"/"+element)
-                    tempTextures.append((Int(element.prefix(element.count - 5))!, try textureLoader.newTexture(URL: url, options: textureLoaderOption)))
-                }else {
-                    print("Invalid")
-                }
-            }
-        }catch {
-            print(error)
-        }
-        tempTextures.sort(by: {$0.0 < $1.0})
+    func createHeap() {
+        let heapDescriptor = MTLHeapDescriptor()
+        heapDescriptor.storageMode = .private
+        heapDescriptor.size = 0
         
-        print("Count: ",tempTextures.count)
-        return tempTextures.map({$0.1})
+        for i in self.textures {
+            let descriptor = descriptorFromTexture(i, storageMode: .private)
+            var sizeAndAlign: MTLSizeAndAlign = device!.heapTextureSizeAndAlign(descriptor: descriptor)
+            sizeAndAlign.size += (sizeAndAlign.size & (sizeAndAlign.align - 1)) + sizeAndAlign.align
+            heapDescriptor.size += sizeAndAlign.size
+        }
+        self.heap = device?.makeHeap(descriptor: heapDescriptor)
     }
     
-    func setTextures(_ FilePath: String) {
-            let tempTextures = loadTextures(FilePath)
-            self.textures = tempTextures
-            let renderTargetDescriptor = MTLTextureDescriptor()
-            renderTargetDescriptor.pixelFormat = MTLPixelFormat.rgba32Float
-            renderTargetDescriptor.textureType = MTLTextureType.type2D
-            renderTargetDescriptor.width = Int(tempTextures[0].width)
-            renderTargetDescriptor.height = Int(tempTextures[0].height)
-            renderTargetDescriptor.storageMode = MTLStorageMode.private;
-            renderTargetDescriptor.usage = [MTLTextureUsage.shaderRead, MTLTextureUsage.shaderWrite]
-            
-            self.presentingImage = device?.makeTexture(descriptor: renderTargetDescriptor)
-            
-            self.dimensionConstraint?.isActive = false
-            self.dimensionConstraint = imageHolder.widthAnchor.constraint(equalTo: imageHolder.heightAnchor, multiplier: CGFloat(tempTextures[0].width)/CGFloat(tempTextures[0].height))
-            self.dimensionConstraint?.isActive = true
-            
-            self.frameInput.maxFrame = tempTextures.count - 1
+    func moveResourcesToHeap(_ function: MTLFunction) {
+        let commandBuffer = commandQueue?.makeCommandBuffer()
+        let blitEncoder = commandBuffer?.makeBlitCommandEncoder()
+        let descriptor = descriptorFromTexture(self.textures[0], storageMode: .private)
+        for (index,i) in self.textures.enumerated() {
+            if let heapTexture = heap!.makeTexture(descriptor: descriptor) {
+                blitEncoder?.pushDebugGroup("Blits " + ("\(index)"))
+                
+                var region = MTLRegionMake2D(0, 0, i.width, i.height)
+                for level in 0..<i.mipmapLevelCount {
+                    blitEncoder?.pushDebugGroup("Level \(level) Blit")
+                    for slice in 0..<i.arrayLength {
+                        blitEncoder?.copy(from: i, sourceSlice: slice, sourceLevel: level, sourceOrigin: region.origin, sourceSize: region.size, to: heapTexture, destinationSlice: slice, destinationLevel: level, destinationOrigin: region.origin)
+                    }
+                    region.size.width /= 2
+                    region.size.height /= 2
+                    region.size.width = region.size.width == 0 ? 1 : region.size.width
+                    region.size.height = region.size.height == 0 ? 1 : region.size.height
+                    
+                    blitEncoder?.popDebugGroup()
+                    
+                    
+                }
+                self.textures[index] = heapTexture
+            }
+        }
+        blitEncoder?.endEncoding()
+        commandBuffer?.commit()
+        
+        let argumentEncoder = function.makeArgumentEncoder(bufferIndex: 1)
+        self.textureBuffer = device?.makeBuffer(length: argumentEncoder.encodedLength, options: MTLResourceOptions(rawValue: 0))
+        
+        argumentEncoder.setArgumentBuffer(self.textureBuffer, offset: 0)
+        
+        
+        for (index,i) in textures.enumerated() {
+            argumentEncoder.setTexture(i, index: index)
+        }
     }
+    
+    func descriptorFromTexture(_ texture: MTLTexture, storageMode: MTLStorageMode) -> MTLTextureDescriptor {
+        let descriptor = MTLTextureDescriptor()
+        descriptor.textureType = texture.textureType
+        descriptor.pixelFormat = texture.pixelFormat
+        descriptor.width = texture.width
+        descriptor.height = texture.height
+        descriptor.depth = texture.depth
+        descriptor.mipmapLevelCount = texture.mipmapLevelCount
+        descriptor.arrayLength = texture.arrayLength
+        descriptor.sampleCount = texture.sampleCount
+        descriptor.storageMode = storageMode
+        
+        return descriptor
+    }
+    
 }

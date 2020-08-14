@@ -21,8 +21,8 @@ extension GUIController {
         var selectionSize: SIMD2<Int32> = SIMD2<Int32>(-1,-1)
         var selectionColor: SIMD3<Float> = SIMD3<Float>(0,1,0)
         
-        var CellBodyColor: SIMD3<Float> = SIMD3<Float>(Float(NSColor.green.redComponent),Float(NSColor.green.greenComponent),Float(NSColor.green.blueComponent))
-        var ProcessColor: SIMD3<Float> = SIMD3<Float>(Float(NSColor.red.redComponent),Float(NSColor.red.greenComponent),Float(NSColor.red.blueComponent))
+        var CellBodyColor: SIMD3<Float> = SIMD3<Float>(1,1,1)
+        var ProcessColor: SIMD3<Float> = SIMD3<Float>(0,1,0)
         var SheathColor: SIMD3<Float> = SIMD3<Float>(Float(NSColor.cyan.redComponent),Float(NSColor.cyan.greenComponent),Float(NSColor.cyan.blueComponent))
         var UndefinedColor: SIMD3<Float> = SIMD3<Float>(Float(NSColor.yellow.redComponent),Float(NSColor.yellow.greenComponent),Float(NSColor.yellow.blueComponent))
         

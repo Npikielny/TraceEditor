@@ -26,6 +26,12 @@
 		4645D32A24D49C9600F0A79D /* SelectionTypeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4645D32924D49C9600F0A79D /* SelectionTypeCollectionView.swift */; };
 		4645D32D24D49CA800F0A79D /* SelectionTypeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4645D32B24D49CA800F0A79D /* SelectionTypeItem.swift */; };
 		4645D32E24D49CA800F0A79D /* SelectionTypeItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4645D32C24D49CA800F0A79D /* SelectionTypeItem.xib */; };
+		465B765E24E1BFF80058FB63 /* MenuBarHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465B765D24E1BFF80058FB63 /* MenuBarHandling.swift */; };
+		465B766124E1C2E30058FB63 /* ProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465B765F24E1C2E30058FB63 /* ProgressController.swift */; };
+		465B766224E1C2E30058FB63 /* ProgressController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 465B766024E1C2E30058FB63 /* ProgressController.xib */; };
+		465B766424E1DBA70058FB63 /* Importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465B766324E1DBA70058FB63 /* Importer.swift */; };
+		4670CBA624E3412400CF1C8A /* TraceImportWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4670CBA424E3412400CF1C8A /* TraceImportWindow.swift */; };
+		4670CBA724E3412400CF1C8A /* TraceImportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4670CBA524E3412400CF1C8A /* TraceImportWindow.xib */; };
 		469909D424D7ACF700C63A0C /* EditNeuronController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469909D224D7ACF700C63A0C /* EditNeuronController.swift */; };
 		469909D524D7ACF700C63A0C /* EditNeuronController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 469909D324D7ACF700C63A0C /* EditNeuronController.xib */; };
 		46A3C1B524CD49AF00B53881 /* GUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A3C1B324CD49AF00B53881 /* GUIController.swift */; };
@@ -84,6 +90,12 @@
 		4645D32924D49C9600F0A79D /* SelectionTypeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTypeCollectionView.swift; sourceTree = "<group>"; };
 		4645D32B24D49CA800F0A79D /* SelectionTypeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTypeItem.swift; sourceTree = "<group>"; };
 		4645D32C24D49CA800F0A79D /* SelectionTypeItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectionTypeItem.xib; sourceTree = "<group>"; };
+		465B765D24E1BFF80058FB63 /* MenuBarHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarHandling.swift; sourceTree = "<group>"; };
+		465B765F24E1C2E30058FB63 /* ProgressController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressController.swift; sourceTree = "<group>"; };
+		465B766024E1C2E30058FB63 /* ProgressController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProgressController.xib; sourceTree = "<group>"; };
+		465B766324E1DBA70058FB63 /* Importer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Importer.swift; sourceTree = "<group>"; };
+		4670CBA424E3412400CF1C8A /* TraceImportWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceImportWindow.swift; sourceTree = "<group>"; };
+		4670CBA524E3412400CF1C8A /* TraceImportWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TraceImportWindow.xib; sourceTree = "<group>"; };
 		469909D224D7ACF700C63A0C /* EditNeuronController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNeuronController.swift; sourceTree = "<group>"; };
 		469909D324D7ACF700C63A0C /* EditNeuronController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditNeuronController.xib; sourceTree = "<group>"; };
 		46A3C1B324CD49AF00B53881 /* GUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUIController.swift; sourceTree = "<group>"; };
@@ -175,8 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				4622A86524CB462A002DA4BF /* AppDelegate.swift */,
-				46BB599F24CE3A1D00A807FE /* FileInputController.swift */,
-				46BB59A024CE3A1D00A807FE /* FileInputController.xib */,
+				4670CBA324E3410A00CF1C8A /* Import */,
 				46BB599E24CE39D400A807FE /* GUIEditor */,
 				4622A86924CB462B002DA4BF /* Assets.xcassets */,
 				4622A86B24CB462B002DA4BF /* Main.storyboard */,
@@ -204,6 +215,18 @@
 			path = TraceEditorUITests;
 			sourceTree = "<group>";
 		};
+		4670CBA324E3410A00CF1C8A /* Import */ = {
+			isa = PBXGroup;
+			children = (
+				46BB599F24CE3A1D00A807FE /* FileInputController.swift */,
+				46BB59A024CE3A1D00A807FE /* FileInputController.xib */,
+				465B766324E1DBA70058FB63 /* Importer.swift */,
+				4670CBA424E3412400CF1C8A /* TraceImportWindow.swift */,
+				4670CBA524E3412400CF1C8A /* TraceImportWindow.xib */,
+			);
+			path = Import;
+			sourceTree = "<group>";
+		};
 		46BB599E24CE39D400A807FE /* GUIEditor */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,8 +237,11 @@
 				46B2C38C24D0ACC900D0B7FB /* KeyHandling.swift */,
 				4622A89124CB472A002DA4BF /* RenderHandling.swift */,
 				4622A89524CB4FA6002DA4BF /* TraceHandling.swift */,
+				465B765F24E1C2E30058FB63 /* ProgressController.swift */,
+				465B766024E1C2E30058FB63 /* ProgressController.xib */,
 				46B2C38A24D0AC3500D0B7FB /* TextureHandling.swift */,
 				46BB599C24CE2FBA00A807FE /* FrameViewer.swift */,
+				465B765D24E1BFF80058FB63 /* MenuBarHandling.swift */,
 				4622A89324CB4A3B002DA4BF /* Rendering.metal */,
 				460DBA2E24CF52EA006840D2 /* Settings */,
 				4601979524D35B05007B0B32 /* Trace Layout */,
@@ -328,11 +354,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				46BB59A224CE3A1D00A807FE /* FileInputController.xib in Resources */,
+				4670CBA724E3412400CF1C8A /* TraceImportWindow.xib in Resources */,
 				4601979424D35AFC007B0B32 /* TraceLayoutController.xib in Resources */,
 				4622A86A24CB462B002DA4BF /* Assets.xcassets in Resources */,
 				4622A86D24CB462B002DA4BF /* Main.storyboard in Resources */,
 				4601979924D35C5C007B0B32 /* TraceLayoutCell.xib in Resources */,
 				4645D32E24D49CA800F0A79D /* SelectionTypeItem.xib in Resources */,
+				465B766224E1C2E30058FB63 /* ProgressController.xib in Resources */,
 				46364B6324CF312F00687C36 /* SettingsController.xib in Resources */,
 				46A3C1B624CD49AF00B53881 /* GUIController.xib in Resources */,
 				469909D524D7ACF700C63A0C /* EditNeuronController.xib in Resources */,
@@ -372,11 +400,15 @@
 				46FF476024CCB938005A9F16 /* MouseHandling.swift in Sources */,
 				4645D32824D49A5200F0A79D /* TraceCollectionView.swift in Sources */,
 				46A3C1B524CD49AF00B53881 /* GUIController.swift in Sources */,
+				4670CBA624E3412400CF1C8A /* TraceImportWindow.swift in Sources */,
 				4645D32D24D49CA800F0A79D /* SelectionTypeItem.swift in Sources */,
 				46B2C38D24D0ACC900D0B7FB /* KeyHandling.swift in Sources */,
 				4622A86624CB462A002DA4BF /* AppDelegate.swift in Sources */,
 				4645D32A24D49C9600F0A79D /* SelectionTypeCollectionView.swift in Sources */,
+				465B766124E1C2E30058FB63 /* ProgressController.swift in Sources */,
 				46BB599D24CE2FBA00A807FE /* FrameViewer.swift in Sources */,
+				465B765E24E1BFF80058FB63 /* MenuBarHandling.swift in Sources */,
+				465B766424E1DBA70058FB63 /* Importer.swift in Sources */,
 				4601979824D35C5C007B0B32 /* TraceLayoutCell.swift in Sources */,
 				460DBA3024CF5305006840D2 /* SliderInput.swift in Sources */,
 				4601979324D35AFC007B0B32 /* TraceLayoutController.swift in Sources */,

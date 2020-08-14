@@ -90,25 +90,29 @@ struct Uniform {
     bool showSelection;
 };
 
+constant int imageCount [[function_constant(0)]];
+
+struct Heap {
+    array<texture2d<float>, 195>Images;
+};
+
 // Simple fragment shader which copies a texture and applies a simple tonemapping function
 fragment float4 copyFragment(CopyVertexOut in [[stage_in]],
                              constant Uniform &uniform [[buffer(0)]],
-                             texture2d<float> traceTexture [[texture(0)]],
-                             texture2d<float> imageTexture [[texture(1)]],
-                             texture2d<float> imageTextureNeg [[texture(2)]],
-                             texture2d<float> imageTexturePos [[texture(3)]])
+                             constant Heap &heap [[buffer(1)]],
+                             texture2d<float> traceTexture [[texture(0)]])
 {
     constexpr sampler sam(min_filter::nearest, mag_filter::nearest, mip_filter::none);
     
 //    float3 color = max(traceTexture.sample(sam, in.uv).xyz, imageTexture.sample(sam, in.uv));
 //    float3 color;
-    float4 imageValue = imageTexture.sample(sam, in.uv);
+    float4 imageValue = heap.Images[uniform.frame].sample(sam, in.uv);
     if (uniform.frame > 0 && uniform.frame < int(uniform.dimension.z) - 1) {
-        imageValue = imageValue * 0.5 + imageTextureNeg.sample(sam, in.uv)*0.25 + imageTexturePos.sample(sam, in.uv)*0.25;
+        imageValue = imageValue * 0.5 + heap.Images[uniform.frame-1].sample(sam, in.uv)*0.25 + heap.Images[uniform.frame+1].sample(sam, in.uv)*0.25;
     }else if (uniform.frame > 0) {
-        imageValue = imageValue * 0.67 + imageTextureNeg.sample(sam, in.uv)*0.33;
+        imageValue = imageValue * 0.67 + heap.Images[uniform.frame-1].sample(sam, in.uv)*0.33;
     }else if (uniform.frame < int(uniform.dimension.z) - 1) {
-        imageValue = imageValue * 0.67 + imageTexturePos.sample(sam, in.uv)*0.33;
+        imageValue = imageValue * 0.67 + heap.Images[uniform.frame+1].sample(sam, in.uv)*0.33;
     }
     if (uniform.grayScale) {
         imageValue = float4(float3(length(imageValue.xyz)/3),1);
@@ -185,7 +189,7 @@ float4 getColor(int trace) {
 //};
 
 void write (float3 position, float radius, int frame, int2 imageDimension, float embolden, float fade, bool selected, float3 color, bool showSelection, texture2d<float, access::read_write> image) {
-    int sideLength = int(embolden*radius / clamp(abs(float(frame) - position.z)/4,float(1),INFINITY));
+    int sideLength = int(embolden*(radius+1) / clamp(abs(float(frame) - position.z)/4,float(1),INFINITY));
     if (selected && showSelection) {
         sideLength = 5;
     }

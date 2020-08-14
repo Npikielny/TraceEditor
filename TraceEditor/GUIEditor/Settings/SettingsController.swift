@@ -34,8 +34,8 @@ class SettingsController: NSViewController {
         }
     }
     //Soma Color Picker
-    var CellBodyColorInput = ColorPickerInput("Soma Color: ", NSColor.green)
-    var CellBodyColor: NSColor = .green {
+    var CellBodyColorInput = ColorPickerInput("Soma Color: ", NSColor.white)
+    var CellBodyColor: NSColor = .white {
         didSet {
             self.guiController.uniform.CellBodyColor = SIMD3<Float>(Float(self.CellBodyColor.redComponent), Float(self.CellBodyColor.greenComponent), Float(self.CellBodyColor.blueComponent))
             self.guiController.editUniform()

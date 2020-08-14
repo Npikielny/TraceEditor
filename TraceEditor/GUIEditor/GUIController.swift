@@ -12,22 +12,30 @@ class GUIController: NSViewController {
     
     var traceWindow: NSWindow!
     
-    convenience init(ImageDirectory: String, TracesDirectory: String) {
+    convenience init(Traces: [Trace]?, Points: [Point]?, TracesBuffer: MTLBuffer?, PointsBuffer: MTLBuffer?, Textures: [MTLTexture], PresentingImage: MTLTexture) {
         self.init(nibName: "GUIController", bundle: nil)
         
-        setTextures(ImageDirectory)
-        loadTraces(TracesDirectory)
-//        loadTexture("/Users/pikielnyfamily/Desktop/Lab/AVG_originalTracingFile.tif")
-//        loadTraces("/Users/pikielnyfamily/Desktop/Lab/trace.swc")
-        //        "MAX_originalTracingFile.tif"
+        self.traces = Traces
+        self.points = Points
+        self.tracesBuffer = TracesBuffer
+        self.pointsBuffer = PointsBuffer
+        self.textures = Textures
+        
+        self.presentingImage = PresentingImage
+        
         setupUniform(PointCount: Int32(self.points!.count), Dimensions: SIMD3<Float>(Float(self.presentingImage!.width),Float(self.presentingImage!.height),0))
         
-        mtkView(imageHolder, drawableSizeWillChange: CGSize(width: textures[0].width,height: textures[0].height))
-        
         let traceController = TraceLayoutController(guiController: self)
-        traceWindow = NSWindow(contentViewController: traceController)
-        traceWindow.title = "Trace Layout"
-        traceWindow.makeKeyAndOrderFront(self)
+        self.traceWindow = NSWindow(contentViewController: traceController)
+        self.traceWindow.title = "Trace Layout"
+        self.traceWindow.makeKeyAndOrderFront(self)
+        
+        self.dimensionConstraint?.isActive = false
+        self.dimensionConstraint = imageHolder.widthAnchor.constraint(equalTo: imageHolder.heightAnchor, multiplier: CGFloat(textures[0].width)/CGFloat(textures[0].height))
+        self.dimensionConstraint?.isActive = true
+
+        self.frameInput.maxFrame = textures.count - 1
+        
     }
     
     lazy var imageHolder: MTKView = {
@@ -53,6 +61,10 @@ class GUIController: NSViewController {
     var uniformBuffer: MTLBuffer?
     
     var textures = [MTLTexture]()
+    var heap: MTLHeap?
+    var textureBuffer: MTLBuffer?
+    
+    
     var presentingImage: MTLTexture?
     
     var size: CGSize?
@@ -103,6 +115,8 @@ class GUIController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         view.addSubview(imageHolder)
         imageHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         imageHolder.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -122,6 +136,8 @@ class GUIController: NSViewController {
             renderDescriptor.vertexFunction = vertexFunction
             renderDescriptor.fragmentFunction = fragmentFunction
             renderDescriptor.colorAttachments[0].pixelFormat = imageHolder.colorPixelFormat;
+            createHeap()
+            moveResourcesToHeap(fragmentFunction!)
             do {
                 self.renderPipeline = try device!.makeRenderPipelineState(descriptor: renderDescriptor)
             } catch {
@@ -140,6 +156,7 @@ class GUIController: NSViewController {
             }catch {
                 print(error)
             }
+            
         }
         
         
@@ -203,13 +220,6 @@ class GUIController: NSViewController {
                 self.needsCopy = true
             }
         }
-    }
-    
-    func setupDefault() {
-        setTextures("/Users/pikielnyfamily/Desktop/Lab/AVG_originalTracingFile.tif")
-        loadTraces("/Users/pikielnyfamily/Desktop/Lab/trace.swc")
-//        "MAX_originalTracingFile.tif"
-        setupUniform(PointCount: Int32(self.points!.count), Dimensions: SIMD3<Float>(Float(self.presentingImage!.width),Float(self.presentingImage!.height),0))
     }
     
     override var representedObject: Any? {

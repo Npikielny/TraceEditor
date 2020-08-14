@@ -9,9 +9,11 @@
 import Cocoa
 
 class FileInputController: NSViewController {
-
-    convenience init () {
+    var executable: ((([MTLTexture]?, MTLTexture?, [Trace]?, [Point]?)) -> ())?
+    var editor: Bool!
+    convenience init (_ NewEditor: Bool, _ Executable: (([MTLTexture]?, MTLTexture?, [Trace]?, [Point]?)) -> () = {_ in}) {
         self.init(nibName: "FileInputController", bundle: nil)
+        self.editor = NewEditor
     }
     
     let tracesLabel: NSText = {
@@ -67,18 +69,15 @@ class FileInputController: NSViewController {
     }()
     
     @objc func FinishSelection () {
-        if tracesFilePathText.string.suffix(4) == ".swc" && imageDirectoryPathText.string != "" {
+        if imageDirectoryPathText.string != "" {
             self.view.window?.close()
             
-    //         loadTexture("/Users/pikielnyfamily/Desktop/Lab/AVG_originalTracingFile.tif")
-            //        loadTraces("/Users/pikielnyfamily/Desktop/Lab/trace.swc")
-            
-            let controller = GUIController(ImageDirectory: self.imageDirectoryPathText.string, TracesDirectory: self.tracesFilePathText.string)
-            let window = NSWindow(contentViewController: controller)
-            window.title = "Trace Editor"
-            let screen = NSScreen.main?.frame.size
-            window.setFrame(NSRect(x: 0, y: 0, width: screen!.height, height: screen!.height), display: true)
-            window.makeKeyAndOrderFront(self)
+            let importer = Importer()
+            if (editor ?? true) {
+                importer.loadEditorFromFiles(imageDirectory: self.imageDirectoryPathText.string, TracePath: self.tracesFilePathText.string)
+            }else {
+                self.executable!(importer.importDataToEditor(imageDirectory: self.imageDirectoryPathText.string, TracePath: self.tracesFilePathText.string))
+            }
         }else {
             if tracesFilePathText.string.suffix(4) != ".swc" {
                 tracesFilePathText.string = "Invalid file. It must be a .swc"

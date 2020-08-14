@@ -68,7 +68,7 @@ class TraceCollectionView: NSView, NSCollectionViewDelegate, NSCollectionViewDel
     }
     
     func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-        return controller.traces!.count
+        return (controller.traces ?? []).count
     }
     
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
