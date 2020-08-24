@@ -37,40 +37,40 @@ class SettingsController: NSViewController {
     var CellBodyColorInput = ColorPickerInput("Soma Color: ", NSColor.white)
     var CellBodyColor: NSColor = .white {
         didSet {
-            self.guiController.uniform.CellBodyColor = SIMD3<Float>(Float(self.CellBodyColor.redComponent), Float(self.CellBodyColor.greenComponent), Float(self.CellBodyColor.blueComponent))
-            self.guiController.editUniform()
+            self.guiController.colors.CellBodyColor = SIMD3<Float>(Float(self.CellBodyColor.redComponent), Float(self.CellBodyColor.greenComponent), Float(self.CellBodyColor.blueComponent))
+            self.guiController.editColors()
         }
     }
     //Process Color Picker
     var ProcessColorInput = ColorPickerInput("Process Color: ", NSColor.red)
     var ProcessColor: NSColor = .red {
         didSet {
-            self.guiController.uniform.ProcessColor = SIMD3<Float>(Float(self.ProcessColor.redComponent), Float(self.ProcessColor.greenComponent), Float(self.ProcessColor.blueComponent))
-            self.guiController.editUniform()
+            self.guiController.colors.ProcessColor = SIMD3<Float>(Float(self.ProcessColor.redComponent), Float(self.ProcessColor.greenComponent), Float(self.ProcessColor.blueComponent))
+            self.guiController.editColors()
         }
     }
     //Sheath Color Picker
     var SheathColorInput = ColorPickerInput("Sheath Color: ", NSColor.cyan)
     var SheathColor: NSColor = .cyan {
         didSet {
-            self.guiController.uniform.SheathColor = SIMD3<Float>(Float(self.SheathColor.redComponent), Float(self.SheathColor.greenComponent), Float(self.SheathColor.blueComponent))
-            self.guiController.editUniform()
+            self.guiController.colors.SheathColor = SIMD3<Float>(Float(self.SheathColor.redComponent), Float(self.SheathColor.greenComponent), Float(self.SheathColor.blueComponent))
+            self.guiController.editColors()
         }
     }
     //Undefined Color Picker
     var UndefinedColorInput = ColorPickerInput("Undefined: ", NSColor.yellow)
     var UndefinedColor: NSColor = .yellow {
         didSet {
-            self.guiController.uniform.UndefinedColor = SIMD3<Float>(Float(self.UndefinedColor.redComponent), Float(self.UndefinedColor.greenComponent), Float(self.UndefinedColor.blueComponent))
-            self.guiController.editUniform()
+            self.guiController.colors.UndefinedColor = SIMD3<Float>(Float(self.UndefinedColor.redComponent), Float(self.UndefinedColor.greenComponent), Float(self.UndefinedColor.blueComponent))
+            self.guiController.editColors()
         }
     }
     //Selection Color Picker
     var selectionColorInput = ColorPickerInput("Selection Color: ", NSColor.green)
     var selectionColor: NSColor = .green {
         didSet {
-            self.guiController.uniform.selectionColor = SIMD3<Float>(Float(self.selectionColor.redComponent), Float(self.selectionColor.greenComponent), Float(self.selectionColor.blueComponent))
-            self.guiController.editUniform()
+            self.guiController.colors.selectionColor = SIMD3<Float>(Float(self.selectionColor.redComponent), Float(self.selectionColor.greenComponent), Float(self.selectionColor.blueComponent))
+            self.guiController.editColors()
         }
     }
     //Show background -> Check

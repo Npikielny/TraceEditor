@@ -51,9 +51,21 @@ class TraceImportWindow: NSViewController {
     
     @objc func finishSelection() {
         let importer = Importer()
-        let traces = importer.importDataToEditor(imageDirectory: nil, TracePath: tracesFilePathText.string)
-        editor.addTraces(traces.2, traces.3)
-        self.view.window?.close()
+//        let completionFunction: (Any) -> () = {
+//            (data) in
+//            let UNWPDData = data as! ([MTLTexture]?, MTLTexture?, [Trace]?, [Point]?, SIMD3<Float>?)
+//            self.editor.addTraces(UNWPDData.2, UNWPDData.3)
+//            self.view.window?.close()
+//        }
+        
+        importer.importDataToEditor(imageDirectory: nil, TracePath: tracesFilePathText.string, Editor: self.editor) {
+//            Completion((textures, presentingImage, traces, points, voxelCorrection))
+            data in
+            let UNWPDData = data as! ([MTLTexture]?, MTLTexture?, [Trace]?, [Point]?, SIMD3<Float>?)
+            self.editor.addTraces(UNWPDData.2, UNWPDData.3)
+            self.view.window?.close()
+            
+        }
     }
     
     override func viewDidLoad() {

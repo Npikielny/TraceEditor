@@ -29,6 +29,7 @@ extension GUIController {
         }
         self.startingPosition = getPosition(event: event)
         self.endingPosition = getPosition(event: event)
+        
         self.view.window?.makeFirstResponder(nil)
     }
     override func mouseDragged(with event: NSEvent) {
@@ -46,8 +47,11 @@ extension GUIController {
     }
     
     override func mouseUp(with event: NSEvent) {
-        self.startingPosition = nil
-        self.endingPosition = nil
+//        self.startingPosition = nil
+//        self.endingPosition = nil
+        self.uniform.selecting = false
+        print("SELECTING FALSE")
+        editUniform()
     }
     
     override func scrollWheel(with event: NSEvent) {

@@ -36,25 +36,16 @@ class Importer {
                 }
                 self.semaphore.signal()
             }
-            var TraceData: ([Trace],[Point],Bool)?
+            var TraceData: ([Trace],[Point],SIMD3<Float>?)?
             if let tracePath = TracePath {
                 self.semaphore.wait()
                 TraceData = self.loadTraces(FilePath: tracePath, RecursiveParenting: false)
                 self.semaphore.signal()
             }
-            self.semaphore.wait()
-                var traceBuffer: MTLBuffer?
-                var pointBuffer: MTLBuffer?
-
-                if let traceData = TraceData {
-                    traceBuffer = self.device?.makeBuffer(bytes: traceData.0, length: MemoryLayout<Trace>.stride * traceData.0.count, options: .storageModeShared)
-                    pointBuffer = self.device?.makeBuffer(bytes: traceData.1, length: MemoryLayout<Point>.stride * traceData.1.count, options: .storageModeManaged)
-                }
-            self.semaphore.signal()
             
             self.semaphore.wait()
             DispatchQueue.main.sync {
-                let controller = GUIController(Traces: TraceData?.0, Points: TraceData?.1, TracesBuffer: traceBuffer, PointsBuffer: pointBuffer, Textures: textures.0, PresentingImage: textures.1)
+                let controller = GUIController(Traces: TraceData?.0, Points: TraceData?.1, VoxelSize: TraceData?.2, Textures: textures.0, PresentingImage: textures.1)
                 let window = NSWindow(contentViewController: controller)
                 controller.setupMenuBar(&window.menu!)
                 window.title = "Trace Editor"
@@ -68,7 +59,7 @@ class Importer {
         }
     }
     
-    func importDataToEditor(imageDirectory: String?, TracePath: String?) -> ([MTLTexture]?,MTLTexture?,[Trace]?,[Point]?) {
+    func importDataToEditor(imageDirectory: String?, TracePath: String?, Editor: GUIController, Completion: @escaping (Any) -> () ) {
         let progressWindow = NSWindow(contentViewController: progressController)
         let screen = (NSScreen.main?.frame ?? NSRect(x: 0, y: 0, width: 600, height: 600))
         progressWindow.setFrame(NSRect(x: (screen.width - 400) / 2, y: (screen.height - 200) / 2, width: 400, height: 200), display: true)
@@ -86,9 +77,10 @@ class Importer {
         var presentingImage: MTLTexture?
         var traces: [Trace]?
         var points: [Point]?
+        var voxelCorrection: SIMD3<Float>?
         
+        self.semaphore.wait()
         backgroundThread.async {
-            self.semaphore.wait()
             if let ImageDirectory = imageDirectory {
                 let Textures = self.setTextures(ImageDirectory) {
                     DispatchQueue.main.async {
@@ -101,17 +93,24 @@ class Importer {
             }else {
                 self.semaphore.signal()
             }
-            var TraceData: ([Trace],[Point],Bool)?
+            self.semaphore.wait()
+            var TraceData: ([Trace],[Point],SIMD3<Float>?)?
             if let tracePath = TracePath {
-                self.semaphore.wait()
                 TraceData = self.loadTraces(FilePath: tracePath, RecursiveParenting: false)
                 traces = TraceData?.0
                 points = TraceData?.1
-                self.semaphore.signal()
+                voxelCorrection = TraceData?.2
+            }else {
+                self.semaphore.wait()
             }
-
+            self.semaphore.wait()
+            DispatchQueue.main.sync {
+                print("E",traces?.count, points?.count)
+                Completion((textures, presentingImage, traces, points, voxelCorrection))
+                self.progressController.view.window?.close()
+            }
+            self.semaphore.signal()
         }
-        return (textures, presentingImage, traces, points)
     }
     
     func setTextures(_ FilePath: String, completion: @escaping () -> ()) -> ([MTLTexture],MTLTexture){
@@ -166,7 +165,7 @@ class Importer {
         return tempTextures.map({$0.1})
     }
     
-    func loadTraces(FilePath: String, RecursiveParenting: Bool) -> ([Trace],[Point], Bool)? {
+    func loadTraces(FilePath: String, RecursiveParenting: Bool) -> ([Trace],[Point], SIMD3<Float>?)? {
         do {
             var data = try getTraces(FilePath, 0, 0, 0.25) {
                 DispatchQueue.main.async {
@@ -181,13 +180,7 @@ class Importer {
                 }
                 semaphore.wait()
                 print("Assigning Parent Structure")
-                let tempData: ([Trace],[Point]) = {
-                    if FilePath.suffix(4) == ".swc" {
-                        return findParentStructure(data.0, data.1)
-                    }else {
-                        return findParentStructure(data.0, data.1)
-                    }
-                }()
+                let tempData: ([Trace],[Point]) = findParentStructure(data.0, data.1)
                 data.0 = tempData.0
                 data.1 = tempData.1
                 DispatchQueue.main.sync {
@@ -280,9 +273,10 @@ class Importer {
         }
     }
     
-    func getTraces(_ FilePath: String, _ nOffset: Int32, _ traceOffset: Int32, _ Max: Double, _ completion: @escaping () -> ()) throws -> ([Trace],[Point], Bool) {
+    func getTraces(_ FilePath: String, _ nOffset: Int32, _ traceOffset: Int32, _ Max: Double, _ completion: @escaping () -> ()) throws -> ([Trace],[Point], SIMD3<Float>?) {
         var traces = [Trace]()
         var points = [Point]()
+        var fromDiretory: Bool = false
         var voxelCorrection: SIMD3<Float>?
         
         do {
@@ -295,14 +289,14 @@ class Importer {
                 
                 var tempTraces = [Trace]()
                 var tempPoints = [[Point]]()
-                
                 while let element = enumerator.nextObject() as? String {
                     if (element.suffix(4) == ".swc") {
 //                        let data = try getTraces(FilePath+"/"+element, Max * 0.01, {})
                         let data = try getTraces(FilePath+"/"+element, Int32(tempPoints.reduce([], +).count), Int32(tempTraces.count), Max * 0.01, {})
                         tempTraces += data.0
                         tempPoints.append(data.1)
-                        
+                        voxelCorrection = data.2
+                        fromDiretory = true
                     }
                 }
 //                for i in 0..<tempPoints.count {
@@ -382,16 +376,16 @@ class Importer {
 //        DispatchQueue.main.sync {
 //            self.progressController.increment(Task: "Applying Voxel Offset", Progress: Max * 0.1)
 //        }
-        var found = false
         if let voxelFound = voxelCorrection {
-            found = true
-            points = points.map({
-                var newPoint = $0
-                newPoint.position /= voxelFound
-                return newPoint
-            })
+            if !fromDiretory {
+                points = points.map({
+                    var newPoint = $0
+                    newPoint.position /= voxelFound
+                    return newPoint
+                })
+            }
         }
         completion()
-        return (traces, points, found)
+        return (traces, points, voxelCorrection)
     }
 }

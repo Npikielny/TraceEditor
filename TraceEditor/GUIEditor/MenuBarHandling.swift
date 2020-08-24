@@ -20,10 +20,10 @@ extension GUIController {
         fileMenu.title = "File"
         let newImage = NSMenuItem(title: "Open New Image", action: #selector(newEditor), keyEquivalent: "o")
         let newTrace = NSMenuItem(title: "Open New Trace", action: #selector(importTrace), keyEquivalent: "i")
-        let export = NSMenuItem(title: "Export", action: #selector(newEditor), keyEquivalent: "s")
         let newItem = NSMenuItem(title: "New Editor", action: #selector(newEditor), keyEquivalent: "n")
+        let saveItem = NSMenuItem(title: "Save Trace", action: #selector(saveTrace), keyEquivalent: "s")
         let closeWindow = NSMenuItem(title: "Close Window", action: #selector(newEditor), keyEquivalent: "w")
-        [newImage, newTrace, newItem, export, closeWindow].forEach({
+        [newImage, newTrace, newItem, saveItem, closeWindow].forEach({
             fileMenu.addItem($0)
         })
         
@@ -47,11 +47,55 @@ extension GUIController {
 //        window.title = "Trace Editor File Importer"
 //        window.makeKeyAndOrderFront(self)
     }
-    
     @objc func newEditor() {
         let controller = FileInputController()
         let window = NSWindow(contentViewController: controller)
         window.title = "Trace Editor File Importer"
         window.makeKeyAndOrderFront(self)
+    }
+    func gatherTraceString() -> String {
+        var traceString: String = "Voxel Size: \(self.voxelSize) \n"
+//        let voxel = self.voxelSize ?? SIMD3<Float>(0,0,0)
+        let voxel: SIMD3<Float> = {
+            if let unwrappedCorrection = self.voxelSize {
+                return unwrappedCorrection
+            }else {
+                return SIMD3<Float>(1,1,1)
+            }
+        }()
+        
+        let dataPoints: [String] = points!.map({
+            return (String($0.n) + " " + String($0.type) + " " + String($0.position.x * voxel.x) + " " + String($0.position.y * voxel.y) + " " + String($0.position.z * voxel.z) + " " + String($0.radius) + " " + String($0.parent))
+        })
+//        print(dataPoints)
+        for i in dataPoints {
+            print(i)
+            traceString += i + "\n"
+        }
+//        print(traceString)
+        return traceString
+    }
+    @objc func saveTrace() {
+        let savePanel = NSSavePanel()
+        savePanel.canCreateDirectories = true
+        savePanel.message = "Saving Traces"
+        savePanel.nameFieldLabel = "File Name"
+        savePanel.prompt = "Create"
+        if savePanel.runModal() == NSApplication.ModalResponse.OK {
+            let fileName = savePanel.nameFieldStringValue
+            let directory = savePanel.directoryURL
+            let path = (directory ?? URL(fileURLWithPath: "")).path + "/" + fileName + (( fileName.suffix(4) == ".swc") ? "" : ".swc")
+            do {
+                try gatherTraceString().write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
+            }catch {
+                print(error)
+            }
+//            print(fileName)
+//            print(path)
+//            FileManager.default.createFile(atPath: path, contents: Data(), attributes: [:])
+//            print(gatherTraceString())
+            
+        }
+        
     }
 }

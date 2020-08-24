@@ -3,7 +3,7 @@
 //  TraceEditor
 //
 //  Created by Noah Pikielny on 7/24/20.
-//  Copyright © 2020 Noah Pikielny. All rights reserved.
+//  Copyright © 2020 Noah Pikielny. All rights reserved.
 //
 
 import MetalKit
@@ -12,18 +12,25 @@ class GUIController: NSViewController {
     
     var traceWindow: NSWindow!
     
-    convenience init(Traces: [Trace]?, Points: [Point]?, TracesBuffer: MTLBuffer?, PointsBuffer: MTLBuffer?, Textures: [MTLTexture], PresentingImage: MTLTexture) {
+    var voxelSize: SIMD3<Float>?
+    
+    convenience init(Traces: [Trace]?, Points: [Point]?, VoxelSize: SIMD3<Float>?, Textures: [MTLTexture], PresentingImage: MTLTexture) {
         self.init(nibName: "GUIController", bundle: nil)
-        
+        self.voxelSize = VoxelSize
         self.traces = Traces
         self.points = Points
-        self.tracesBuffer = TracesBuffer
-        self.pointsBuffer = PointsBuffer
+        let device = MTLCreateSystemDefaultDevice()
+        if let unwrappedTraces = Traces {
+            self.tracesBuffer = device?.makeBuffer(bytes: unwrappedTraces, length: MemoryLayout<Trace>.stride*unwrappedTraces.count, options: .storageModeShared)
+        }
+        if let unwrappedPoints = Points {
+            self.pointsBuffer = device?.makeBuffer(bytes: unwrappedPoints, length: MemoryLayout<Point>.stride*unwrappedPoints.count, options: .storageModeManaged)
+        }
         self.textures = Textures
         
         self.presentingImage = PresentingImage
         
-        setupUniform(PointCount: Int32(self.points!.count), Dimensions: SIMD3<Float>(Float(self.presentingImage!.width),Float(self.presentingImage!.height),0))
+        setupUniformBuffers(PointCount: Int32(self.points!.count), Dimensions: SIMD3<Float>(Float(self.presentingImage!.width),Float(self.presentingImage!.height),0))
         
         let traceController = TraceLayoutController(guiController: self)
         self.traceWindow = NSWindow(contentViewController: traceController)
@@ -59,6 +66,9 @@ class GUIController: NSViewController {
     
     var uniform: Uniform!
     var uniformBuffer: MTLBuffer?
+    
+    var colors: ColorSet = ColorSet()
+    var colorBuffer: MTLBuffer?
     
     var textures = [MTLTexture]()
     var heap: MTLHeap?

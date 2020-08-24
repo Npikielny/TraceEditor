@@ -75,12 +75,6 @@ struct Uniform {
     int selectionType;
     int2 center;
     int2 size;
-    float3 selectionColor;
-    
-    float3 CellBodyColor;
-    float3 ProximalProcessColor;
-    float3 SheathColor;
-    float3 UndefinedColor;
     
     float fade;
     float embolden;
@@ -130,13 +124,14 @@ fragment float4 copyFragment(CopyVertexOut in [[stage_in]],
 //    }else {
 //        color = imageTexture.sample(sam, in.uv).xyz;
 //    }
-       
+    if (uniform.selecting) {
     int2 difference = int2(uniform.center) - int2(in.uv*uniform.imageSize.xy);
-        
-    if (abs(difference.x) < uniform.size.x / 2 && abs(difference.y) < uniform.size.y / 2) {
-        color = color/2+float3(0.1)/2;
-    }else if (abs(difference.x) <= uniform.size.x/2 && abs(difference.y) <= uniform.size.y / 2) {
-        color = color/2+float3(1)/2;
+            
+        if (abs(difference.x) < uniform.size.x / 2 && abs(difference.y) < uniform.size.y / 2) {
+            color = color/2+float3(0.1)/2;
+        }else if (abs(difference.x) <= uniform.size.x/2 && abs(difference.y) <= uniform.size.y / 2) {
+            color = color/2+float3(1)/2;
+        }
     }
     // Apply a very simple tonemapping function to reduce the dynamic range of the
     // input image into a range which can be displayed on screen.
@@ -214,24 +209,35 @@ void write (float3 position, float radius, int frame, int2 imageDimension, float
         }
     }
 }
-
-float3 getColor (int neuronType, constant Uniform & uniform) {
+struct Color {
+    float3 selectionColor;
+    float3 CellBodyColor;
+    float3 ProximalProcessColor;
+    float3 SheathColor;
+    float3 UndefinedColor;
+};
+float3 getColor (device Trace &trace, constant Color & colors) {
+    if (trace.selected) {
+        return colors.selectionColor;
+    }
+    int neuronType = trace.type;
     if (neuronType == 0) {
-        return uniform.CellBodyColor;
+        return colors.CellBodyColor;
     }
     if (neuronType == 1) {
-        return uniform.ProximalProcessColor;
+        return colors.ProximalProcessColor;
     }
     if (neuronType == 2) {
-        return uniform.SheathColor;
+        return colors.SheathColor;
     }
-    return uniform.UndefinedColor;
+    return colors.UndefinedColor;
 }
 
 kernel void draw(uint2 tid [[thread_position_in_grid]],
                  device Trace *traces [[buffer(0)]],
                  constant Point *points [[buffer(1)]],
                  constant Uniform &uniform [[buffer(2)]],
+                 constant Color &colors [[buffer(3)]],
                  texture2d<float, access::read_write> presentingImage [[texture(1)]]) {
     int Index = tid.x + tid.y * uniform.pointWidth;
     
@@ -240,22 +246,23 @@ kernel void draw(uint2 tid [[thread_position_in_grid]],
     constant Point &point = points[Index];
     
     int2 difference = int2(point.position.xy) - int2(uniform.center);
-    if (abs(difference.x) < uniform.size.x / 2 && abs(difference.y) < uniform.size.y / 2) {
-        if (uniform.selectionType == single || uniform.selectionType == addition || uniform.selectionType == negative) {
-            if (abs(point.position.z - uniform.frame) <= 5) {
-                if (uniform.selectionType == negative) {
-                    traces[point.trace].selected = !traces[point.trace].selected;
-                }else {
-                    traces[point.trace].selected = true;
+    if (uniform.selecting) {
+        if (abs(difference.x) < uniform.size.x / 2 && abs(difference.y) < uniform.size.y / 2) {
+            if (uniform.selectionType == single || uniform.selectionType == addition || uniform.selectionType == negative) {
+                if (abs(point.position.z - uniform.frame) <= 5) {
+                    if (uniform.selectionType == negative) {
+                        traces[point.trace].selected = !traces[point.trace].selected;
+                    }else {
+                        traces[point.trace].selected = true;
+                    }
                 }
-            }
-        }else {
-            if (uniform.showSelection || abs(point.position.z - uniform.frame) <= 5) {
-                traces[point.trace].selected = false;
+            }else {
+                if (uniform.showSelection || abs(point.position.z - uniform.frame) <= 5) {
+                    traces[point.trace].selected = false;
+                }
             }
         }
     }
-    
     if (point.parent != -1) {
         constant Point &last = points[point.parent-1];
 //        if (checkIntersection(point.position.xy, last.position.xy, uniform.center, uniform.size)) {
@@ -271,7 +278,7 @@ kernel void draw(uint2 tid [[thread_position_in_grid]],
             for (int t = 0; t < int(dist); t ++) {
                 float3 position = last.position + difference*float(t)/float(int(dist));
                 if (!compareVector(presentingImage.read(uint2(position.xy)), float4(1))) {
-                    write(position, point.radius, uniform.frame, int2(uniform.dimension.xy), uniform.embolden, uniform.fade, traces[point.trace].selected, traces[point.trace].selected?uniform.selectionColor:getColor(traces[point.trace].type, uniform), uniform.showSelection, presentingImage);
+                    write(position, point.radius, uniform.frame, int2(uniform.dimension.xy), uniform.embolden, uniform.fade, traces[point.trace].selected, getColor(traces[point.trace], colors), uniform.showSelection, presentingImage);
                 }
             }
         }
@@ -284,5 +291,5 @@ kernel void draw(uint2 tid [[thread_position_in_grid]],
 //            }
 //        }
     }
-    write(point.position, point.radius, uniform.frame, int2(uniform.dimension.xy), uniform.embolden, uniform.fade, traces[point.trace].selected, traces[point.trace].selected?uniform.selectionColor:getColor(traces[point.trace].type, uniform), uniform.showSelection, presentingImage);
+    write(point.position, point.radius, uniform.frame, int2(uniform.dimension.xy), uniform.embolden, uniform.fade, traces[point.trace].selected, getColor(traces[point.trace], colors), uniform.showSelection, presentingImage);
 }

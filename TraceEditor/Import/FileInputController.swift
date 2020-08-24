@@ -9,11 +9,9 @@
 import Cocoa
 
 class FileInputController: NSViewController {
-    var executable: ((([MTLTexture]?, MTLTexture?, [Trace]?, [Point]?)) -> ())?
-    var editor: Bool!
-    convenience init (_ NewEditor: Bool, _ Executable: (([MTLTexture]?, MTLTexture?, [Trace]?, [Point]?)) -> () = {_ in}) {
+    var executable: ((([MTLTexture]?, MTLTexture?, [Trace]?, [Point]?, SIMD3<Float>?)) -> ())?
+    convenience init (_ Executable: (([MTLTexture]?, MTLTexture?, [Trace]?, [Point]?)) -> () = {_ in}) {
         self.init(nibName: "FileInputController", bundle: nil)
-        self.editor = NewEditor
     }
     
     let tracesLabel: NSText = {
@@ -37,7 +35,18 @@ class FileInputController: NSViewController {
         return button
     }()
     
-    @objc func setTraces () {}
+    @objc func setTraces () {
+        let traceSetter = NSOpenPanel()
+        traceSetter.allowsMultipleSelection = false
+        traceSetter.canChooseDirectories = true
+        traceSetter.canChooseFiles = false
+        let response = traceSetter.runModal()
+        if response == NSApplication.ModalResponse.OK {
+            if let url = traceSetter.url {
+                self.tracesFilePathText.string = url.path
+            }
+        }
+    }
     
     let imagesLabel: NSText = {
         let text = NSText()
@@ -60,7 +69,18 @@ class FileInputController: NSViewController {
         return button
     }()
     
-    @objc func setImages () {}
+    @objc func setImages () {
+        let imageSetter = NSOpenPanel()
+        imageSetter.allowsMultipleSelection = false
+        imageSetter.canChooseDirectories = true
+        imageSetter.canChooseFiles = false
+        let response = imageSetter.runModal()
+        if response == NSApplication.ModalResponse.OK {
+            if let url = imageSetter.url {
+                self.imageDirectoryPathText.string = url.path
+            }
+        }
+    }
     
     lazy var finishButton: NSButton = {
         let button = NSButton(title: "Load Files", target: self, action: #selector(FinishSelection))
@@ -73,11 +93,7 @@ class FileInputController: NSViewController {
             self.view.window?.close()
             
             let importer = Importer()
-            if (editor ?? true) {
-                importer.loadEditorFromFiles(imageDirectory: self.imageDirectoryPathText.string, TracePath: self.tracesFilePathText.string)
-            }else {
-                self.executable!(importer.importDataToEditor(imageDirectory: self.imageDirectoryPathText.string, TracePath: self.tracesFilePathText.string))
-            }
+            importer.loadEditorFromFiles(imageDirectory: self.imageDirectoryPathText.string, TracePath: self.tracesFilePathText.string)
         }else {
             if tracesFilePathText.string.suffix(4) != ".swc" {
                 tracesFilePathText.string = "Invalid file. It must be a .swc"

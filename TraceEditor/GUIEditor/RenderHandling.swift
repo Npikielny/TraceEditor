@@ -31,7 +31,8 @@ extension GUIController: MTKViewDelegate {
                         if self.points!.count > 0 && self.traces!.count > 0{
                             let drawEncoder = commandBuffer?.makeComputeCommandEncoder()
                             drawEncoder?.setComputePipelineState(self.drawPipeline!)
-                            drawEncoder?.setBuffers([self.tracesBuffer, self.pointsBuffer, self.uniformBuffer], offsets: [0,0,0], range: 0..<3)
+                            let buffers = [self.tracesBuffer, self.pointsBuffer, self.uniformBuffer, self.colorBuffer]
+                            drawEncoder?.setBuffers(buffers, offsets: Array(repeating: 0, count: buffers.count), range: 0..<buffers.count)
                             drawEncoder?.setTexture(self.presentingImage, index: 1)
                             drawEncoder?.dispatchThreadgroups(MTLSize(width: Int(self.uniform.kernelWidth+7) / 8, height:Int(self.uniform.kernelWidth+7) / 8, depth: 1), threadsPerThreadgroup: MTLSize(width: 8, height: 8, depth: 1))
                             drawEncoder?.endEncoding()
